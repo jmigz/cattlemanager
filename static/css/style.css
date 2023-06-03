@@ -1,0 +1,44 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.logo {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.description {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #FFF;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #0056b3;
+}
