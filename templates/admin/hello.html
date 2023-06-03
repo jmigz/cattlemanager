@@ -1,0 +1,33 @@
+{% extends '/layouts/layout.html' %}
+
+
+
+{% block content %}
+<body>
+    <main>
+        <h2>All Cattle</h2>
+        <div class="row">
+            {% if cattle_list %}
+                <!-- Loop through cattle data from the backend and generate cards dynamically -->
+                {% for cattle in cattle_list %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ cattle.name }}</h5>
+                            <p class="card-text">Breed: {{ cattle.breed }}</p>
+                            <p class="card-text">Age: {{ cattle.age }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No cattle added yet. Please add some.</p>
+            {% endif %}
+        </div>
+    </main>
+    
+    
+</body>
+
+
+{% endblock %}

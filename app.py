@@ -1,11 +1,17 @@
 from flask import Flask, request, current_app, redirect, url_for, flash, render_template
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 from dotenv import load_dotenv
-from flask_sqlalchemy import SQLAlchemy
+
 from sqlalchemy import inspect
+from datetime import datetime
 import os
+from dotenv import load_dotenv
 import psycopg2
+from models import db
 from flask_migrate import Migrate
+from models.user import User
+from models.cattle import Cattle
+
 
 
 # Get the values of environment variables
@@ -16,10 +22,11 @@ secret_key = os.environ.get('SECRET_KEY')
 load_dotenv()
 
 app = Flask(__name__)
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
-db = SQLAlchemy(app)
+db.init_app(app)
 migrate = Migrate(app, db)
 
 
@@ -36,16 +43,13 @@ def list_users():
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-
-class User(UserMixin, db.Model):
-    __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(255), unique=True)
-    password = db.Column(db.String(255))
-
-    def __init__(self, username, password):
-        self.username = username
-        self.password = password
+@app.template_filter('format_date')
+def format_date(date):
+    if date == 'now':
+        return datetime.now().strftime('%Y')
+    else:
+        date_obj = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')  # Convert date string to datetime object
+        return date_obj.strftime('%Y')
 
 
 @login_manager.user_loader
@@ -76,12 +80,12 @@ def login():
     return render_template('auth/login.html')
 
 
-@app.route('/cattle')
+@app.route('/admin/cattle')
 def cattle_index():
-    return render_template('cattle/index.html')
+    return render_template('cattle/cattlelist.html')
 
 
-@app.route('/cattle/details')
+@app.route('/admin/cattle/details')
 def cattle_details():
     return render_template('cattle/details.html')
 
@@ -90,7 +94,7 @@ def cattle_details():
 @login_required
 def hello():
     # Render the hello page template
-    return render_template('hello.html')
+    return render_template('/admin/hello.html')
 
 
 def authenticate_user(username, password):
@@ -121,21 +125,24 @@ def home():
     return render_template('home.html')
 
 
-if __name__ == '__main__':
-    with app.app_context():
-        inspector = inspect(db.engine)
-        table_names = inspector.get_table_names()
-        for table_name in table_names:
-            print(table_name)
-        user_columns = inspector.get_columns('users')
-        for column in user_columns:
-            print(column['name'])
-            
-        db.create_all()
-        # Uncomment the following line if you want to create a user
-        # create_user('kiki', 'password')
-        users = list_users()
-        for user in users:
-            print(user)
+# Create users and list them
+# with app.app_context():
+    # db.drop_all()
+    # db.create_all()
+    # inspector = inspect(db.engine)
+    # table_names = inspector.get_table_names()
+    # for table_name in table_names:
+    #     print(table_name)
+    # user_columns = inspector.get_columns('users')
+    # for column in user_columns:
+    #     print(column['name'])
+    # create_user('kiki', 'password')
 
-    app.run()
+    # create_user('admin', 'password')
+    # users = list_users()
+    # for user in users:
+    #     print(user)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
