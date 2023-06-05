@@ -1,10 +1,8 @@
-# views.py
-
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_user, login_required, logout_user
 from models.user import User, authenticate_user
 
-def login():
+def login_view():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -20,15 +18,17 @@ def login():
 
     return render_template('auth/login.html')
 
-def cattle_list():
-    return render_template('/admin/cattle/index.html')
+@login_required
+def cattle_list_view():
+    return render_template('/admin/cattle/cattlelist.html')
 
+@login_required
 def cattle_details():
     return render_template('/admin/cattle/details.html')
 
 @login_required
 def hello():
-    return render_template('hello.html')
+    return render_template('dashboard.html')
 
 @login_required
 def logout():

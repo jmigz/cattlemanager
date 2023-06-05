@@ -1,6 +1,4 @@
-#!/bin/sh
-'''exec' "/Users/jamesmigwi/Library/CloudStorage/GoogleDrive-benson.migwi@gmail.com/My Drive/cattleapp/cattlemanager/env/bin/python3" "$0" "$@"
-' '''
+#!/Users/jamesmigwi/app_development/cattlemanager/env/bin/python3.11
 # -*- coding: utf-8 -*-
 import re
 import sys

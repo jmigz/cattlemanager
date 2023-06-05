@@ -1,18 +1,12 @@
-from flask import Flask, request, current_app, redirect, url_for, flash, render_template
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
-from dotenv import load_dotenv
-
-from sqlalchemy import inspect
 from datetime import datetime
-import os
+from flask import Flask, request, redirect, render_template
+from flask_login import LoginManager, login_required
 from dotenv import load_dotenv
-import psycopg2
+import os
 from models import db
 from flask_migrate import Migrate
+from views import cattle_list_view, login_view, cattle_details, logout, protected, home
 from models.user import User
-from models.cattle import Cattle
-
-
 
 # Get the values of environment variables
 database_url = os.environ.get('DATABASE_URL')
@@ -28,17 +22,6 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 db.init_app(app)
 migrate = Migrate(app, db)
-
-
-def create_user(username, password):
-    user = User(username=username, password=password)
-    db.session.add(user)
-    db.session.commit()
-
-
-def list_users():
-    return User.query.all()
-
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -63,38 +46,24 @@ def load_user(user_id):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
-        authenticated = authenticate_user(username, password)
-
-        if authenticated:
-            # Create a user object and login the user
-            user = User.query.filter_by(username=username).first()
-            login_user(user)
-            return redirect(url_for('hello'))
-        else:
-            flash('Invalid credentials')
-
-    return render_template('auth/login.html')
+    # Call the login_view function from views.py
+    return login_view()
 
 
-@app.route('/admin/cattle')
-def cattle_index():
-    return render_template('cattle/cattlelist.html')
-
+@app.route('/cattlelist')
+def cattle_list_route():
+    return cattle_list_view()
 
 @app.route('/admin/cattle/details')
 def cattle_details():
-    return render_template('cattle/details.html')
+    return cattle_details()
 
 
-@app.route('/hello')
+@app.route('/dashboard')
 @login_required
 def hello():
     # Render the hello page template
-    return render_template('/admin/hello.html')
+    return render_template('/admin/dashboard.html')
 
 
 def authenticate_user(username, password):
@@ -110,38 +79,18 @@ def authenticate_user(username, password):
 @app.route('/logout')
 @login_required
 def logout():
-    logout_user()
-    return redirect(url_for('home'))
+    return logout()
 
 
 @app.route('/protected')
 @login_required
 def protected():
-    return 'Protected route: Only authenticated users can access this'
+    return protected()
 
 
 @app.route('/')
-def home():
-    return render_template('home.html')
-
-
-# Create users and list them
-# with app.app_context():
-    # db.drop_all()
-    # db.create_all()
-    # inspector = inspect(db.engine)
-    # table_names = inspector.get_table_names()
-    # for table_name in table_names:
-    #     print(table_name)
-    # user_columns = inspector.get_columns('users')
-    # for column in user_columns:
-    #     print(column['name'])
-    # create_user('kiki', 'password')
-
-    # create_user('admin', 'password')
-    # users = list_users()
-    # for user in users:
-    #     print(user)
+def home_route():
+    return home()
 
 
 if __name__ == '__main__':

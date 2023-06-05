@@ -1,4 +1,4 @@
-#!/Users/jamesmigwi/Library/CloudStorage/GoogleDrive-benson.migwi@gmail.com/My Drive/cattleapp/cattlemanager/env/bin/python3
+#!/Users/jamesmigwi/app_development/cattlemanager/env/bin/python3.11
 # -*- coding: utf-8 -*-
 # Copyright 2022 Google LLC
 #
