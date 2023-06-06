@@ -12,7 +12,7 @@ def login_view():
         if authenticated:
             user = User.query.filter_by(username=username).first()
             login_user(user)
-            return redirect(url_for('hello'))
+            return dashboard_view()
         else:
             flash('Invalid credentials')
 
@@ -27,8 +27,11 @@ def cattle_details():
     return render_template('/admin/cattle/details.html')
 
 @login_required
-def hello():
-    return render_template('dashboard.html')
+def dashboard_view():
+    return render_template('/admin/dashboard.html')
+@login_required
+def maintain_cattle_list_view():
+    return render_template('/admin/cattle/addremove.html')
 
 @login_required
 def logout():

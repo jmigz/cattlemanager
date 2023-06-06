@@ -1,13 +1,8 @@
-# models.py
+# user.py
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
-from flask_sqlalchemy import SQLAlchemy
-from . import db
-
-
-
-# db = SQLAlchemy()
+from models import db
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -34,4 +29,3 @@ def authenticate_user(username, password):
         return True
 
     return False
-

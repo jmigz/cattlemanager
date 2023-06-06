@@ -1,0 +1,54 @@
+
+{% extends '/layouts/layout.html' %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card shadow">
+          <div class="card-body">
+            <h2 class="card-title text-center">Add/Remove Cattle</h2>
+            <div class="row">
+              <div class="col-md-6">
+                <h3>Add Cattle</h3>
+                <form action="" method="POST">
+                  <div class="mb-3">
+                    <label for="cattle_name" class="form-label">Cattle Name</label>
+                    <input type="text" class="form-control" id="cattle_name" name="cattle_name" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="reason" class="form-label">Reason for Adding</label>
+                    <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Add Cattle</button>
+                </form>
+              </div>
+              <div class="col-md-6">
+                <h3>Remove Cattle</h3>
+                <form action="" method="POST">
+                  <div class="mb-3">
+                    <label for="cattle_id" class="form-label">Cattle ID</label>
+                    <input type="text" class="form-control" id="cattle_id" name="cattle_id" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="reason" class="form-label">Reason for Removal</label>
+                    <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-danger">Remove Cattle</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4">
+          <h3>Action Log</h3>
+          <ul class="list-group">
+            {% for action in action_log %}
+            <li class="list-group-item">{{ action }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+{% endblock %}

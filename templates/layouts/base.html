@@ -34,11 +34,17 @@
         </div>
     </nav>
 
-    <div class="container mt-4">
+    <div class="container ">
         {% block content %}
         <!-- Content of individual pages will go here -->
         {% endblock %}
     </div>
+     
+    <footer class="footer fixed-bottom bg-dark text-light text-center">
+        <div class="container">
+            <p>&copy; {{ 'now'|format_date }} HoneyFontein Farm</p>
+        </div>
+      </footer>
 
     <!-- Include the MUI dependencies -->
     <script src="https://cdn.skypack.dev/@emotion/react@11.7.0"></script>

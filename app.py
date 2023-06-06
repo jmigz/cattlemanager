@@ -1,12 +1,15 @@
+# app.py
+
 from datetime import datetime
 from flask import Flask, request, redirect, render_template
 from flask_login import LoginManager, login_required
 from dotenv import load_dotenv
 import os
-from models import db
 from flask_migrate import Migrate
-from views import cattle_list_view, login_view, cattle_details, logout, protected, home
-from models.user import User
+from views import cattle_list_view, login_view, cattle_details, logout, protected, home, dashboard_view, maintain_cattle_list_view
+from models import db
+from models.user import User, create_user
+
 
 # Get the values of environment variables
 database_url = os.environ.get('DATABASE_URL')
@@ -54,16 +57,20 @@ def login():
 def cattle_list_route():
     return cattle_list_view()
 
+@app.route('/maintain_cattle_list')
+def maintain_cattle_list():
+    return maintain_cattle_list_view()
+   
+
+
 @app.route('/admin/cattle/details')
 def cattle_details():
     return cattle_details()
 
 
 @app.route('/dashboard')
-@login_required
-def hello():
-    # Render the hello page template
-    return render_template('/admin/dashboard.html')
+def dashboard_route():
+    return dashboard_view()
 
 
 def authenticate_user(username, password):
@@ -92,6 +99,16 @@ def protected():
 def home_route():
     return home()
 
+def create_initial_users():
+    with app.app_context():
+        print("Creating users...")
+        create_user('kiki', 'password')
+        create_user('user', 'password')
+        print("Users created.")
+
+# create_initial_users()  # Call the function outside the __main__ block
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
