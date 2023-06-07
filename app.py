@@ -104,11 +104,10 @@ def home_route():
 
 @app.route('/add_cattle', methods=['GET', 'POST'])
 def add_cattle():
-    print("just before calling add")
     if request.method == 'POST':
         return add_cattle_route(request)
     else:
-        return render_template('add_cattle.html')
+        return render_template('admin/cattle/add_cattle.html')
 
 
 @app.route('/remove_cattle', methods=['GET', 'POST'])

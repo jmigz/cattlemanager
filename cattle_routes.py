@@ -1,27 +1,32 @@
+from datetime import datetime
 from flask import render_template, redirect, url_for, flash
 from models import db, Cattle
 from logger import log_action
 
 def add_cattle_route(request):
-    print("i got here")
+    test = "this is a test string for debugging"
     if request.method == 'POST':
         breed = request.form['breed']
-        age = int(request.form['age'])
-        weight = float(request.form['weight'])
+        birth_date = request.form['birth_year']
         sex = request.form['sex']
-        health_status = request.form['health_status']
-        vaccinations = request.form['vaccinations']
-        breeding_history = request.form['breeding_history']
         
-        print(request.form)
+        # Extract year and month from the birth_date
+        birth_year, birth_month = birth_date.split('-')
+        birth_year = int(birth_year)
+        birth_month = int(birth_month)
+        
+        # Validate birth date
+        current_year = datetime.now().year
+        current_month = datetime.now().month
+        if birth_year > current_year or (birth_year == current_year and birth_month > current_month):
+            flash('Invalid birth date. Please select a date before the current date.', 'danger')
+            return redirect(url_for('add_cattle'))
+        
         # Add the cattle to the database
-        Cattle.add_cattle(breed, age, weight, sex, health_status, vaccinations, breeding_history)
-        
-        flash('Cattle added successfully.', 'success')
-        return redirect(url_for('cattle_list_route'))
-    
-    return render_template('add_cattle.html')
-
+        cattle = Cattle(breed=breed, birth_year=birth_year, sex=sex)
+        db.session.add(cattle)
+        db.session.commit()
+    return render_template('admin/cattle/add_cattle.html', test=test)
 
 def remove_cattle_route(request):
     cattle_id = request.form.get('cattle_id')

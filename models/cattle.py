@@ -12,6 +12,7 @@ class Cattle(db.Model):
     weight = db.Column(db.Float, default=0.0)
     sex = db.Column(db.String(10))
     health_status = db.Column(db.String(255), default='')
+    is_pregnant = db.Column(db.Boolean, default=False)
     vaccinations = db.Column(db.String(255), default='')
     breeding_history = db.Column(db.String(255), default='')
     is_removed = db.Column(db.Boolean, default=False)
@@ -23,9 +24,7 @@ class Cattle(db.Model):
         self.birth_year = birth_year
         self.sex = sex
         self.age = self.calculate_age()
-
-        # Generate tag number based on birth year
-        self.tag_number = self.generate_tag
+        self.tag_number = self.generate_tag_number()
 
     def calculate_age(self):
         current_year = datetime.now().year
@@ -54,8 +53,8 @@ class Cattle(db.Model):
             db.session.delete(self)
 
         db.session.commit()
-
-    def add_cattle(breed, birth_year, sex):
-        cattle = Cattle(breed=breed, birth_year=birth_year, sex=sex)
+    @staticmethod
+    def add_cattle(breed, birth_year, sex, is_pregnant):
+        cattle = Cattle(breed=breed, birth_year=birth_year, sex=sex, is_pregnant=is_pregnant)
         db.session.add(cattle)
         db.session.commit()
