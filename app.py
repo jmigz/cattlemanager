@@ -9,6 +9,9 @@ from flask_migrate import Migrate
 from views import cattle_list_view, login_view, cattle_details, logout, protected, home, dashboard_view, maintain_cattle_list_view
 from models import db
 from models.user import User, create_user
+from models.cattle import Cattle
+from cattle_routes import add_cattle_route, remove_cattle_route
+from utils import create_initial_users
 
 
 # Get the values of environment variables
@@ -99,14 +102,23 @@ def protected():
 def home_route():
     return home()
 
-def create_initial_users():
-    with app.app_context():
-        print("Creating users...")
-        create_user('kiki', 'password')
-        create_user('user', 'password')
-        print("Users created.")
+@app.route('/add_cattle', methods=['GET', 'POST'])
+def add_cattle():
+    print("just before calling add")
+    if request.method == 'POST':
+        return add_cattle_route(request)
+    else:
+        return render_template('add_cattle.html')
 
-# create_initial_users()  # Call the function outside the __main__ block
+
+@app.route('/remove_cattle', methods=['GET', 'POST'])
+def remove_cattle():
+    return remove_cattle_route(request)
+
+
+# create_initial_users(app)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
