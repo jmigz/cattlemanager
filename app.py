@@ -6,7 +6,7 @@ from flask_login import LoginManager, login_required
 from dotenv import load_dotenv
 import os
 from flask_migrate import Migrate
-from views import cattle_list_view, login_view, cattle_details, logout, protected, home, dashboard_view, maintain_cattle_list_view
+from views import *
 from models import db
 from models.user import User, create_user
 from models.cattle import Cattle
@@ -55,20 +55,23 @@ def login():
     # Call the login_view function from views.py
     return login_view()
 
-
-@app.route('/cattlelist')
+@app.route('/cattle/list', methods=['GET'])
 def cattle_list_route():
     return cattle_list_view()
 
-@app.route('/maintain_cattle_list')
+@app.route('/cattle/maintain_cattle_list')
 def maintain_cattle_list():
     return maintain_cattle_list_view()
    
 
 
-@app.route('/admin/cattle/details')
+@app.route('/cattle/details')
 def cattle_details():
     return cattle_details()
+
+@app.route('/cattle/edit/<int:id>', methods=['GET','POST'])
+def cattle_edit_details(id):
+    return edit_cattle_details(id)
 
 
 @app.route('/dashboard')
@@ -102,7 +105,7 @@ def protected():
 def home_route():
     return home()
 
-@app.route('/add_cattle', methods=['GET', 'POST'])
+@app.route('/cattle/add_cattle', methods=['GET', 'POST'])
 def add_cattle():
     if request.method == 'POST':
         return add_cattle_route(request)
@@ -110,7 +113,7 @@ def add_cattle():
         return render_template('admin/cattle/add_cattle.html')
 
 
-@app.route('/remove_cattle', methods=['GET', 'POST'])
+@app.route('/cettle/remove_cattle', methods=['GET', 'POST'])
 def remove_cattle():
     return remove_cattle_route(request)
 

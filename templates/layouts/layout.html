@@ -38,83 +38,92 @@
                   <hr class="mt-0">
                 
                     
-                      <div class=" nav-pills flex-column ">
+                      <div class="  nav nav-pills d-flex flex-column ">
                           <div class="nav-item">
-                              <a href="{{ url_for('dashboard_route') }}" class="nav-link active" aria-current="page">
+                              <a href="{{ url_for('dashboard_route') }}" class="nav-link d-flex {% if request.path == '/dashboard' %}active{% endif %}" aria-current="page">
                                   <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="{{ url_for('dashboard_route') }}"></use></svg>
                                   Dashboard
                               </a>
                             </div>
                       </div>
                       
-                          
-                          
-                              <a class="nav-link collapsed btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#submenu-cattle" aria-expanded="false">
-                                  Cattle Management
-                              </a>
-                              <div class="collapse {% if request.path.startswith('/admin/cattle/') %}show{% endif %}" id="submenu-cattle">
-                                  <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                      <li class="nav-item">
-                                          <a class="nav-link {% if request.path == '/admin/cattle/list' %}active{% endif %}" href="{{ url_for('cattle_list_route') }}">Cattle List</a>
-                                      </li>
-                                      <li class="nav-item">
-                                          <a class="nav-link {% if request.path == '/admin/cattle/details' %}active{% endif %}" href="/admin/cattle/details">Cattle Details</a>
-                                      </li>
-                                      <li class="nav-item">
-                                          <a class="nav-link {% if request.path == '/admin/cattle/add_remove' %}active{% endif %}" href="{{ url_for('maintain_cattle_list') }}">Add/Remove Cattle</a>
-                                      </li>
-                                  </ul>
-                              </div>
-                        
+                      <div class="nav nav-pills d-flex flex-column">
+                        <div class="nav-item">
+                          <a class="nav-link btn btn-toggle d-flex collapsed align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#submenu-cattle" aria-expanded="false">
+                            Cattle Management
+                          </a>
+                          <div class="collapse {% if request.path.startswith('/cattle') %}show{% endif %}" id="submenu-cattle">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                              <li class="nav-item">
+                                <a class="nav-link d-flex {% if request.path == '/cattle/list' %}active{% endif %}" href="{{ url_for('cattle_list_route') }}">Cattle List</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link d-flex {% if request.path == '/cattle/details' %}active{% endif %}" href="/admin/cattle/details">Cattle Details</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link d-flex {% if request.path == '/cattle/maintain_cattle_list' %}active{% endif %}" href="{{ url_for('maintain_cattle_list') }}">Add/Remove Cattle</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    <div class="  nav nav-pills d-flex flex-column ">
                           <li class="nav-item">
-                              <a class="nav-link collapsed btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#submenu-tasks" aria-expanded="false">
+                              <a class="nav-link d-flex collapsed btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#submenu-tasks" aria-expanded="false">
                                   Tasks and Reminders
                               </a>
                               <div class="collapse {% if request.path.startswith('/admin/tasks/') %}show{% endif %}" id="submenu-tasks">
                                   <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                       <li class="nav-item">
-                                          <a class="nav-link {% if request.path == '/admin/tasks/list' %}active{% endif %}" href="/admin/tasks/list">Task List</a>
+                                          <a class="nav-link d-flex {% if request.path == '/admin/tasks/list' %}active{% endif %}" href="/admin/tasks/list">Task List</a>
                                       </li>
                                       <li class="nav-item">
-                                          <a class="nav-link {% if request.path == '/admin/tasks/reminders' %}active{% endif %}" href="/admin/tasks/reminders">Reminders</a>
+                                          <a class="nav-link d-flex {% if request.path == '/admin/tasks/reminders' %}active{% endif %}" href="/admin/tasks/reminders">Reminders</a>
                                       </li>
                                   </ul>
                               </div>
                           </li>
+                          </div>
+                          <div class="  nav nav-pills d-flex flex-column ">
                           <li class="nav-item">
-                              <a class="nav-link collapsed btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#submenu-health" aria-expanded="false">
+                              <a class="nav-link d-flex collapsed btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#submenu-health" aria-expanded="false">
                                   Health Monitoring
                               </a>
                               <div class="collapse {% if request.path.startswith('/admin/health/') %}show{% endif %}" id="submenu-health">
                                   <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                       <li class="nav-item">
-                                          <a class="nav-link {% if request.path == '/admin/health/records' %}active{% endif %}" href="/admin/health/records">Health Records</a>
+                                          <a class="nav-link d-flex {% if request.path == '/admin/health/records' %}active{% endif %}" href="/admin/health/records">Health Records</a>
                                       </li>
                                       <li class="nav-item">
-                                          <a class="nav-link {% if request.path == '/admin/health/alerts' %}active{% endif %}" href="/admin/health/alerts">Alerts</a>
+                                          <a class="nav-link d-flex {% if request.path == '/admin/health/alerts' %}active{% endif %}" href="/admin/health/alerts">Alerts</a>
                                       </li>
                                   </ul>
                               </div>
                           </li>
+                          </div>
+                          <div class="  nav nav-pills d-flex flex-column ">
                           <li class="nav-item">
-                              <a class="nav-link collapsed btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#submenu-breeding" aria-expanded="false">
+                              <a class="nav-link d-flex collapsed btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#submenu-breeding" aria-expanded="false">
                                   Breeding Records
                               </a>
                               <div class="collapse {% if request.path.startswith('/admin/breeding/') %}show{% endif %}" id="submenu-breeding">
                                   <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                       <li class="nav-item">
-                                          <a class="nav-link {% if request.path == '/admin/breeding/info' %}active{% endif %}" href="/admin/breeding/info">Breeding Info</a>
+                                          <a class="nav-link d-flex {% if request.path == '/admin/breeding/info' %}active{% endif %}" href="/admin/breeding/info">Breeding Info</a>
                                       </li>
                                       <li class="nav-item">
-                                          <a class="nav-link {% if request.path == '/admin/breeding/pregnancy' %}active{% endif %}" href="/admin/breeding/pregnancy">Pregnancy Monitoring</a>
+                                          <a class="nav-link d-flex {% if request.path == '/admin/breeding/pregnancy' %}active{% endif %}" href="/admin/breeding/pregnancy">Pregnancy Monitoring</a>
                                       </li>
                                   </ul>
                               </div>
                           </li>
+                        </div>
+                          <div class="  nav nav-pills d-flex flex-column ">
                           <li class="nav-item">
-                              <a class="nav-link {% if request.path == '/admin/reports' %}active{% endif %}" href="/admin/reports">Reports and Analytics</a>
+                              <a class="nav-link btn btn-toggle d-flex {% if request.path == '/admin/reports' %}active{% endif %}" href="/admin/reports">Reports and Analytics</a>
                           </li>
-                     
+                     </div>
                       <hr>
                   
               </div>

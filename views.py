@@ -23,9 +23,22 @@ def login_view():
 
     return render_template('auth/login.html')
 
+
 @login_required
 def cattle_list_view():
-    return render_template('/admin/cattle/cattlelist.html')
+    session = db.session
+    cattle_list = session.query(cattle.Cattle).all()
+
+    
+
+    return render_template('admin/cattle/cattlelist.html', cattle_list=cattle_list)
+
+@login_required
+def edit_cattle_details(id):
+    selected_cattle = cattle.Cattle.query.get(id)
+    return render_template('/admin/cattle/edit_cattle.html',selected_cattle=selected_cattle)
+
+
 
 @login_required
 def cattle_details():
