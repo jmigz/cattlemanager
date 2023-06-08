@@ -56,7 +56,9 @@ h5 {
 .scrollarea {
   overflow-y: auto;
 }
-
+.mvh-75{
+  min-height: 75vh;
+}
 .sidebar .nav-link:hover{
   background-color: #456975;
   color: rgb(235, 245, 231);

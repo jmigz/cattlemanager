@@ -33,10 +33,22 @@ def cattle_list_view():
 
     return render_template('admin/cattle/cattlelist.html', cattle_list=cattle_list)
 
-@login_required
 def edit_cattle_details(id):
     selected_cattle = cattle.Cattle.query.get(id)
-    return render_template('/admin/cattle/edit_cattle.html',selected_cattle=selected_cattle)
+    if request.method == 'POST':
+        # Update the selected cattle with the form data
+        selected_cattle.breed = request.form.get('breed')
+        selected_cattle.birth_year = int(request.form.get('birth_year'))
+        selected_cattle.sex = request.form.get('sex')
+        selected_cattle.is_pregnant = request.form.get('is_pregnant')
+        
+        # Save the changes to the database
+        db.session.commit()
+        
+        # Redirect to the cattle list or any other desired page
+        return redirect(url_for('cattle_list_route'))
+    
+    return render_template('/admin/cattle/edit_cattle.html', selected_cattle=selected_cattle)
 
 
 
@@ -56,12 +68,13 @@ def dashboard_view():
 @login_required
 def maintain_cattle_list_view():
 
-    test = "this is a test string for debugging"
+    
     current_date = date.today()
-    max_date = current_date.strftime('%Y-%m')
+    max_date = current_date.strftime('%Y-%m-%d')
+    next_tag_number = get_next_tag_number(db, cattle.Cattle)
 
 
-    return render_template('/admin/cattle/add_cattle.html', test=test, max_date=max_date)
+    return render_template('/admin/cattle/add_cattle.html', next_tag_number=next_tag_number, max_date=max_date)
 
 @login_required
 def logout():

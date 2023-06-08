@@ -1,45 +1,69 @@
  {% extends '/layouts/layout.html' %}
 
  {% block content %}
-
- <div class="card shadow">
-  <div class="card-body">
-    <h5 class="card-title">Add Cattle</h5>
-    <form method="POST" action="{{ url_for('add_cattle') }}">
-      <div class="form-group">
-        <label for="birth_year">Date of Birth:</label>
-        <input type="month" class="form-control" id="birth_year" name="birth_year" max="{{ max_date }}" required>
-        <span class="text-muted">Test string: {{ test }} and MAX_DATE : {{max_date}}</span>
-
-      </div>
-      <div class="form-group">
-        <label for="breed">Breed:</label>
-        <select class="form-control" id="breed" name="breed" required>
-          <option value="hereford">Hereford</option>
-          <option value="brahman">Brahman</option>
-          <option value="hereford-brahman">Hereford-Brahman</option>
-          <option value="borana">Borana</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="sex">Sex:</label>
-        <select class="form-control" id="sex" name="sex" required>
-          <option value="heifer">Heifer</option>
-          <option value="bull">Bull</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="is_pregnant">Is Pregnant:</label>
-        <select class="form-control" id="is_pregnant" name="is_pregnant" required>
-          <option value="true">Yes</option>
-          <option value="false">No</option>
-        </select>
-      </div>
-      <button type="submit" class="btn btn-primary">Add Cattle</button>
-    </form>
+<div class="container d-flex flex-column justify-content-center align-items-center mvh-75">
+  
+   <div class="card shadow">
+    <div class="card-body">
+      <h5 class="card-title">Add Cattle</h5>
+      <span><h2>Next tag number : {{next_tag_number}}</h2></span>
+      <form method="POST" action="{{ url_for('add_cattle') }}">
+        <div class="form-group">
+          <label for="birth_date">Date of Birth:</label>
+          <input type="date" class="form-control" id="birth_date" max="{{max_date}}" name="birth_date" required>
+        </div>
+        <div class="form-group">
+          <label for="breed">Breed:</label>
+          <select class="form-control" id="breed" name="breed" required>
+            <option value="hereford">Hereford</option>
+            <option value="brahman">Brahman</option>
+            <option value="hereford-brahman">Hereford-Brahman</option>
+            <option value="borana">Borana</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="sex">Sex:</label>
+          <select class="form-control" id="sex" name="sex" required>
+            <option value="heifer">Heifer</option>
+            <option value="bull" selected>Bull</option>
+          </select>
+        </div>
+  
+        <div class="form-group" id="pregnant">
+            <label for="is_pregnant">Is Pregnant:</label>
+            <select class="form-control" id="is_pregnant" name="is_pregnant" required>
+                <option value=True>Yes</option>
+                <option value=False selected>No</option>
+            </select>
+        </div>
+  
+        <button type="submit" class="btn btn-primary mt-3">Add Cattle</button>
+      </form>
+    </div>
   </div>
+  
 </div>
 
 
+{% endblock %}
+{% block js %}
+<script>
 
+  function togglePregnantField() {
+  var sexField = document.getElementById('sex');
+  var isPregnantField = document.getElementById('pregnant');
+
+  if (sexField && isPregnantField) {
+    if (sexField.value === 'heifer') {
+      isPregnantField.style.display = 'block';
+    } else {
+      isPregnantField.style.display = 'none';
+    }
+  }
+}
+
+
+  document.getElementById("sex").addEventListener("change", togglePregnantField);
+  togglePregnantField(); // Initial call to set the field based on the initial value
+</script>
 {% endblock %}

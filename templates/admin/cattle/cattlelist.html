@@ -58,9 +58,9 @@
               <h5 class="card-title">{{ cattle.tag_number }}</h5>
               <p class="card-text">
                 <strong>Breed:</strong> {{ cattle.breed }}<br>
-                <strong>Born:</strong> {{ cattle.birth_year }}<br>
+                <strong>Born:</strong> {{ cattle.birth_date }}<br>
                 <strong>Sex:</strong> {{ cattle.sex }}<br>
-                <strong>Pregnant:</strong> {{ cattle.pregnant }}
+                <strong>Pregnant:</strong> {{ cattle.is_pregnant }}
               </p>
               <div class="text-end">
                 <a href="{{ url_for('cattle_edit_details', id=cattle.id) }}" class="btn btn-primary">Edit</a>

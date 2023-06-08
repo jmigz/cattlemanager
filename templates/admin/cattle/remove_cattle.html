@@ -1,0 +1,42 @@
+{% extends '/layouts/layout.html' %}
+
+{% block content %}
+<div class="container d-flex flex-column justify-content-center align-items-center mvh-75">
+  <div class="card shadow">
+    <div class="card-body">
+      <h5 class="card-title">Remove Cattle</h5>
+      <form method="POST" action="{{ url_for('remove_cattle', id=cattle_id) }}">
+        <div class="form-group">
+          <label for="cattle_tag">Cattle Tag Number:</label>
+          <input type="text" class="form-control" id="cattle_tag" name="cattle_tag" value="{{ cattle_tag }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="removal_reason">Removal Reason:</label>
+            <div class="input-group">
+              <select class="form-control" id="removal_reason" name="removal_reason" required>
+                <option value="" selected disabled>Select Removal Reason</option>
+                <option value="death">Death</option>
+                <option value="sold">Sold</option>
+                <option value="mistake">Mistake</option>
+              </select>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="removal_reason" aria-haspopup="true" aria-expanded="false"></button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#">Death</a>
+                  <a class="dropdown-item" href="#">Sold</a>
+                  <a class="dropdown-item" href="#">Mistake</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-small mt-3 btn-danger justify-self-center">Confirm Removal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

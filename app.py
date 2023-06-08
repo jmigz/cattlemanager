@@ -10,7 +10,7 @@ from views import *
 from models import db
 from models.user import User, create_user
 from models.cattle import Cattle
-from cattle_routes import add_cattle_route, remove_cattle_route
+from cattle_routes import *
 from utils import create_initial_users
 
 
@@ -113,9 +113,9 @@ def add_cattle():
         return render_template('admin/cattle/add_cattle.html')
 
 
-@app.route('/cettle/remove_cattle', methods=['GET', 'POST'])
-def remove_cattle():
-    return remove_cattle_route(request)
+@app.route('/cattle/remove/<int:id>', methods=['GET', 'POST'])
+def remove_cattle(id):
+    return remove_cattle_route(id)
 
 
 # create_initial_users(app)

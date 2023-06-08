@@ -21,13 +21,14 @@
           </div>
           <div class="mb-3">
             <label for="birth_year" class="form-label">Birth Month and Year</label>
+            <span> Current Birth Date : {{selected_cattle.birth_year}}</span>
             <input type="month" class="form-control" id="birth_year" name="birth_year" value="{{ selected_cattle.birth_year }}" >
           </div>
           <div class="mb-3">
             <label for="sex" class="form-label">Sex</label>
             <select class="form-select" id="sex" name="sex" >
-              <option value="Male" {% if selected_cattle.sex == 'Male' %}selected{% endif %}>Male</option>
-              <option value="Female" {% if selected_cattle.sex == 'Female' %}selected{% endif %}>Female</option>
+              <option value="Male" {% if selected_cattle.sex == 'Bull' %}selected{% endif %}>Bull</option>
+              <option value="Female" {% if selected_cattle.sex == 'Heifer' %}selected{% endif %}>Heifer</option>
             </select>
           </div>
           <div class="mb-3">
