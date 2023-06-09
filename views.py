@@ -1,7 +1,7 @@
 from datetime import date
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_user, login_required, logout_user
-from sqlalchemy import func
+from sqlalchemy import func, not_
 from models.user import User, authenticate_user
 from models import db
 from models import cattle
@@ -27,7 +27,33 @@ def login_view():
 @login_required
 def cattle_list_view():
     session = db.session
-    cattle_list = session.query(cattle.Cattle).all()
+    # cattle_list = session.query(cattle.Cattle).all()
+    # cattle_list = session.query(cattle.Cattle).filter(cattle.Cattle.removal_reason == None).all()
+# Retrieve filter parameters from the query string
+    filter_bulls = request.args.get('filter_bulls', '')
+    filter_heifers = request.args.get('filter_heifers', '')
+    filter_birth_year = request.args.get('filter_birth_year', '')
+    filter_pregnant = request.args.get('filter_pregnant', '')
+
+    # Query the database based on the filter parameters
+
+
+    query = session.query(cattle.Cattle).filter(not_(cattle.Cattle.is_removed))
+
+
+
+    if filter_bulls:
+        query = query.filter(cattle.Cattle.sex == 'bull')
+    if filter_heifers:
+        query = query.filter(cattle.Cattle.sex == 'heifer')
+    if filter_birth_year:
+        query = query.filter(cattle.Cattle.birth_year == filter_birth_year)
+    if filter_pregnant:
+        query = query.filter(cattle.Cattle.is_pregnant == (filter_pregnant == 'true'))
+
+    # Execute the filtered query and retrieve the cattle list
+    
+    cattle_list = query.all()
 
     
 

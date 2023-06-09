@@ -13,3 +13,4 @@ Cattle 4 removed. Reason: mistake
 Cattle 9 removed. Reason: mistake
 Cattle 3 removed. Reason: death
 Cattle 8 removed. Reason: mistake
+Cattle 1 removed. Reason: sold

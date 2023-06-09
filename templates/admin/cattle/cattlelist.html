@@ -5,72 +5,74 @@
     <h1>Cattle List</h1>
     
     <!-- Filter options -->
-    <form class="mb-3">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="form-group">
-            <label for="filter-bulls">Bulls:</label>
-            <select class="form-select" id="filter-bulls">
-              <option value="">All</option>
-              <option value="true">Yes</option>
-              <option value="false">No</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label for="filter-heifers">Heifers:</label>
-            <select class="form-select" id="filter-heifers">
-              <option value="">All</option>
-              <option value="true">Yes</option>
-              <option value="false">No</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label for="filter-birth-year">Birth Year:</label>
-            <input type="text" class="form-control" id="filter-birth-year">
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label for="filter-pregnant">Pregnant:</label>
-            <select class="form-select" id="filter-pregnant">
-              <option value="">All</option>
-              <option value="true">Yes</option>
-              <option value="false">No</option>
-            </select>
-          </div>
-        </div>
+<form class="mb-3" method="GET" action="{{ url_for('cattle_list_route') }}">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="filter-bulls">Bulls:</label>
+        <select class="form-select" id="filter-bulls" name="filter_bulls">
+          <option value="">All</option>
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
       </div>
-      <div class="text-end">
-        <button type="submit" class="btn btn-primary">Apply Filters</button>
-      </div>
-    </form>
-    <span><h2>Results: {{ cattle_list|length }}</h2></span>
-    <!-- Cattle Cards -->
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-      {% for cattle in cattle_list %}
-        <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">{{ cattle.tag_number }}</h5>
-              <p class="card-text">
-                <strong>Breed:</strong> {{ cattle.breed }}<br>
-                <strong>Born:</strong> {{ cattle.birth_date }}<br>
-                <strong>Sex:</strong> {{ cattle.sex }}<br>
-                <strong>Pregnant:</strong> {{ cattle.is_pregnant }}
-              </p>
-              <div class="text-end">
-                <a href="{{ url_for('cattle_edit_details', id=cattle.id) }}" class="btn btn-primary">Edit</a>
-                <a href="{{ url_for('remove_cattle', id=cattle.id) }}" class="btn btn-danger">Delete</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      {% endfor %}
     </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="filter-heifers">Heifers:</label>
+        <select class="form-select" id="filter-heifers" name="filter_heifers">
+          <option value="">All</option>
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="filter-birth-year">Birth Year:</label>
+        <input type="text" class="form-control" id="filter-birth-year" name="filter_birth_year">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="filter-pregnant">Pregnant:</label>
+        <select class="form-select" id="filter-pregnant" name="filter_pregnant">
+          <option value="">All</option>
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="text-end">
+    <button type="submit" class="btn btn-primary">Apply Filters</button>
+  </div>
+</form>
+<span><h2>Results: {{ filtered_cattle_list|length }}</h2></span>
+
+<!-- Cattle Cards -->
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  {% for cattle in filtered_cattle_list %}
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ cattle.tag_number }}</h5>
+          <p class="card-text">
+            <strong>Breed:</strong> {{ cattle.breed }}<br>
+            <strong>Born:</strong> {{ cattle.birth_date }}<br>
+            <strong>Sex:</strong> {{ cattle.sex }}<br>
+            <strong>Pregnant:</strong> {{ cattle.is_pregnant }}
+          </p>
+          <div class="text-end">
+            <a href="{{ url_for('cattle_edit_details', id=cattle.id) }}" class="btn btn-primary">Edit</a>
+            <a href="{{ url_for('remove_cattle', id=cattle.id) }}" class="btn btn-danger">Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
     
     <!-- Pagination -->
     <nav class="mt-3">
