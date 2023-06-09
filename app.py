@@ -116,7 +116,10 @@ def add_cattle():
 @app.route('/cattle/remove/<int:id>', methods=['GET', 'POST'])
 def remove_cattle(id):
     return remove_cattle_route(id)
-
+@app.route('/vaccination')
+def vaccination_route():
+    return vaccination_view()
+   
 
 # create_initial_users(app)
 

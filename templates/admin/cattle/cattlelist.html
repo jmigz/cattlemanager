@@ -1,58 +1,68 @@
 {% extends 'layouts/layout.html' %}
 
 {% block content %}
-  <div class="container">
-    <h1>Cattle List</h1>
+  <div class="container mt-3">
+    <h1 class="text-center">Cattle List</h1>
     
-    <!-- Filter options -->
+<!-- Filter options -->
 <form class="mb-3" method="GET" action="{{ url_for('cattle_list_route') }}">
-  <div class="row">
-    <div class="col-md-3">
+  <div class="row d-flex flex-row justify-content-center">
+    <div class="col-md-4 col-lg-2">
       <div class="form-group">
-        <label for="filter-bulls">Bulls:</label>
-        <select class="form-select" id="filter-bulls" name="filter_bulls">
-          <option value="">All</option>
-          <option value="true">Yes</option>
-          <option value="false">No</option>
+        <label for="filter-sex">Sex:</label>
+        <select class="form-select" id="filter-sex" name="filter_sex">
+          <option value="">-</option>
+          <option value="true">Bulls</option>
+          <option value="false">Heifers</option>
         </select>
       </div>
     </div>
-    <div class="col-md-3">
+    
+    <div class="col-md-4 col-lg-2">
       <div class="form-group">
-        <label for="filter-heifers">Heifers:</label>
-        <select class="form-select" id="filter-heifers" name="filter_heifers">
-          <option value="">All</option>
-          <option value="true">Yes</option>
-          <option value="false">No</option>
+        <label for="filter-min-birth-year">Min Birth Year:</label>
+        <select class="form-select" id="filter-min-birth-year" name="filter_min_birth_year">
+          <option value="">-</option>
+          {% for year in range(current_year, current_year - 11, -1) %}
+            <option value="{{ year }}">{{ year }}</option>
+          {% endfor %}
         </select>
       </div>
     </div>
-    <div class="col-md-3">
+
+    <div class="col-md-4 col-lg-2">
       <div class="form-group">
-        <label for="filter-birth-year">Birth Year:</label>
-        <input type="text" class="form-control" id="filter-birth-year" name="filter_birth_year">
+        <label for="filter-max-birth-year">Max Birth Year:</label>
+        <select class="form-select" id="filter-max-birth-year" name="filter_max_birth_year">
+          <option value="">-</option>
+          {% for year in range(current_year, current_year - 11, -1) %}
+            <option value="{{ year }}">{{ year }}</option>
+          {% endfor %}
+        </select>
       </div>
     </div>
-    <div class="col-md-3">
+
+    <div class="col-md-4 col-lg-2">
       <div class="form-group">
         <label for="filter-pregnant">Pregnant:</label>
         <select class="form-select" id="filter-pregnant" name="filter_pregnant">
-          <option value="">All</option>
+          <option value="">-</option>
           <option value="true">Yes</option>
-          <option value="false">No</option>
+          
         </select>
       </div>
     </div>
   </div>
-  <div class="text-end">
-    <button type="submit" class="btn btn-primary">Apply Filters</button>
+  <div class="text-center mt-3">
+    <button type="submit" class="btn btn-primary btn-sm">Apply Filters</button>
   </div>
 </form>
-<span><h2>Results: {{ filtered_cattle_list|length }}</h2></span>
+
+<span><h2>Results: {{results}}</h2></span>
 
 <!-- Cattle Cards -->
 <div class="row row-cols-1 row-cols-md-3 g-4">
-  {% for cattle in filtered_cattle_list %}
+  {% for cattle in cattle_list %}
     <div class="col">
       <div class="card">
         <div class="card-body">
@@ -61,7 +71,9 @@
             <strong>Breed:</strong> {{ cattle.breed }}<br>
             <strong>Born:</strong> {{ cattle.birth_date }}<br>
             <strong>Sex:</strong> {{ cattle.sex }}<br>
-            <strong>Pregnant:</strong> {{ cattle.is_pregnant }}
+            <strong>Removed:</strong> {{ cattle.is_removed }} <br>
+            <strong>Reason:</strong> {{ cattle.removal_reason }} <br>
+
           </p>
           <div class="text-end">
             <a href="{{ url_for('cattle_edit_details', id=cattle.id) }}" class="btn btn-primary">Edit</a>

@@ -1,0 +1,52 @@
+{% extends 'layouts/layout.html' %}
+
+{% block css %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="table-responsive">
+    <table id="myTable" class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>Administration</th>
+          <th>Essential vaccines</th>
+          <th>Optional vaccines</th>
+          <th>Dose and route</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td rowspan="3">Late winter, Early spring (Aug - Sept)</td>
+            <td> </td>
+            <td rowspan="3"> </td>
+            <td rowspan="3">Rift Valley fever (Inactivated vaccine)<br>Clone 13 Rift Valley (Live) - 2 mℓ subcutaneously<br>1 mℓ<br>1 mℓ<br>- C. pyogenes 10 mℓ subcutaneously (<6 months) &amp; 5 mℓ subcutaneously (>6 months)<br>- Pasteurella 5 mℓ subcutaneously</td>
+          </tr>
+          <tr>
+            <td>Lumpy skin disease - 2mℓ subcutaneously</td>
+          </tr>
+          <tr>
+            <td>Three-day stiff sickness - 2 mℓ</td>
+          </tr>
+          <tr>
+            <td>Autumn or early winter (April - June)</td>
+            <td>Blackquarter/Botulism OR Gasgangrene - 5 mℓ subcutaneously OR 5 mℓ subcutaneously<br>Anthrax - 2 mℓ subcutaneously<br>Botulism – (if combinations were not used) - 2 mℓ subcutaneously<br>- C. pyogenes 10 mℓ subcutaneously (>6 months)<br>- Pasteurella 5 mℓ subcutaneously</td>
+            <td>± 4 weeks before breeding - Vibriosis 2 mℓ subcutaneously (heifers)<br>5 mℓ subcutaneously (bulls)<br>2 - 4 weeks before calving - Escherichia coli 2 mℓ subcutaneously</td>
+            <td></td> <!-- Add an empty column to match the header -->
+          </tr>
+      </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function() {
+      $('#myTable').DataTable();
+    });
+</script>
+{% endblock %}

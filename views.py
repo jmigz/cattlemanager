@@ -1,16 +1,17 @@
 from datetime import date
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_user, login_required, logout_user
-from sqlalchemy import func, not_
+from sqlalchemy import extract, func, not_
 from models.user import User, authenticate_user
 from models import db
 from models import cattle
 from utils import get_next_tag_number
 
+
 def login_view():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
 
         authenticated = authenticate_user(username, password)
 
@@ -19,45 +20,50 @@ def login_view():
             login_user(user)
             return dashboard_view()
         else:
-            flash('Invalid credentials')
+            flash("Invalid credentials")
 
-    return render_template('auth/login.html')
+    return render_template("auth/login.html")
 
 
 @login_required
 def cattle_list_view():
-    session = db.session
-    # cattle_list = session.query(cattle.Cattle).all()
-    # cattle_list = session.query(cattle.Cattle).filter(cattle.Cattle.removal_reason == None).all()
-# Retrieve filter parameters from the query string
-    filter_bulls = request.args.get('filter_bulls', '')
-    filter_heifers = request.args.get('filter_heifers', '')
-    filter_birth_year = request.args.get('filter_birth_year', '')
-    filter_pregnant = request.args.get('filter_pregnant', '')
+    cattle_list = cattle.Cattle.query.all()
+    filter_sex = request.args.get("filter_sex", "")
+    filter_min_birth_year = request.args.get("filter_min_birth_year", "")
+    filter_max_birth_year = request.args.get("filter_max_birth_year", "")
+    filter_pregnant = request.args.get("filter_pregnant", "")
+    current_year = date.today().year
 
-    # Query the database based on the filter parameters
+    query = cattle.Cattle.query
 
+    if filter_sex == "true":
+        query = query.filter(cattle.Cattle.sex == "bull")
+    elif filter_sex == "false":
+        query = query.filter(cattle.Cattle.sex == "heifer")
 
-    query = session.query(cattle.Cattle).filter(not_(cattle.Cattle.is_removed))
+    if filter_min_birth_year and filter_max_birth_year:
+        min_year = int(filter_min_birth_year)
+        max_year = int(filter_max_birth_year)
 
+        if min_year <= max_year:
+            query = query.filter(
+                extract("year", cattle.Cattle.birth_date).between(min_year, max_year)
+            )
+        else:
+            query = query.filter(False)  # No results will be returned
 
+    if filter_pregnant == "true":
+        query = query.filter(cattle.Cattle.sex == "heifer", cattle.Cattle.is_pregnant == True)
 
-    if filter_bulls:
-        query = query.filter(cattle.Cattle.sex == 'bull')
-    if filter_heifers:
-        query = query.filter(cattle.Cattle.sex == 'heifer')
-    if filter_birth_year:
-        query = query.filter(cattle.Cattle.birth_year == filter_birth_year)
-    if filter_pregnant:
-        query = query.filter(cattle.Cattle.is_pregnant == (filter_pregnant == 'true'))
+    cattle_list = query.all()  # Apply all filters and retrieve the filtered list
+    results = len(cattle_list)
 
-    # Execute the filtered query and retrieve the cattle list
-    
-    cattle_list = query.all()
-
-    
-
-    return render_template('admin/cattle/cattlelist.html', cattle_list=cattle_list)
+    return render_template(
+        "admin/cattle/cattlelist.html",
+        cattle_list=cattle_list,
+        current_year=current_year,
+        results=results,
+    )
 
 def edit_cattle_details(id):
     selected_cattle = cattle.Cattle.query.get(id)
@@ -76,40 +82,52 @@ def edit_cattle_details(id):
     
     return render_template('/admin/cattle/edit_cattle.html', selected_cattle=selected_cattle)
 
-
-
 @login_required
 def cattle_details():
-    return render_template('/admin/cattle/details.html')
+    return render_template("/admin/cattle/details.html")
+
 
 @login_required
 def dashboard_view():
     total_cattle = cattle.Cattle.query.count()
-    total_heifers = cattle.Cattle.query.filter_by(sex='heifer').count()
-    total_bulls = cattle.Cattle.query.filter_by(sex='bull').count()
+    total_heifers = cattle.Cattle.query.filter_by(sex="heifer").count()
+    total_bulls = cattle.Cattle.query.filter_by(sex="bull").count()
     total_pregnant = cattle.Cattle.query.filter_by(is_pregnant=True).count()
     next_tag_number = get_next_tag_number(db, cattle.Cattle)
-    
-    return render_template('/admin/dashboard.html', total_cattle=total_cattle, total_heifers=total_heifers, total_bulls=total_bulls, total_pregnant=total_pregnant, next_tag_number=next_tag_number)
+
+    return render_template(
+        "/admin/dashboard.html",
+        total_cattle=total_cattle,
+        total_heifers=total_heifers,
+        total_bulls=total_bulls,
+        total_pregnant=total_pregnant,
+        next_tag_number=next_tag_number,
+    )
+
+
 @login_required
 def maintain_cattle_list_view():
-
-    
     current_date = date.today()
-    max_date = current_date.strftime('%Y-%m-%d')
+    max_date = current_date.strftime("%Y-%m-%d")
     next_tag_number = get_next_tag_number(db, cattle.Cattle)
 
+    return render_template(
+        "/admin/cattle/add_cattle.html",
+        next_tag_number=next_tag_number,
+        max_date=max_date,
+    )
 
-    return render_template('/admin/cattle/add_cattle.html', next_tag_number=next_tag_number, max_date=max_date)
 
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for("home"))
+
 
 @login_required
-def protected():
-    return 'Protected route: Only authenticated users can access this'
+def vaccination_view():
+    return render_template("/admin/reminders/vaccinations.html")
+
 
 def home():
-    return render_template('home.html')
+    return render_template("home.html")
