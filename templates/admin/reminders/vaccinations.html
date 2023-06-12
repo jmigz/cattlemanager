@@ -1,52 +1,172 @@
 {% extends 'layouts/layout.html' %}
 
-{% block css %}
-{{ super() }}
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
-{% endblock %}
+
 
 {% block content %}
-<div class="table-responsive">
-    <table id="myTable" class="table table-striped table-bordered">
-      <thead>
-        <tr>
-          <th>Administration</th>
-          <th>Essential vaccines</th>
-          <th>Optional vaccines</th>
-          <th>Dose and route</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-            <td rowspan="3">Late winter, Early spring (Aug - Sept)</td>
-            <td> </td>
-            <td rowspan="3"> </td>
-            <td rowspan="3">Rift Valley fever (Inactivated vaccine)<br>Clone 13 Rift Valley (Live) - 2 mℓ subcutaneously<br>1 mℓ<br>1 mℓ<br>- C. pyogenes 10 mℓ subcutaneously (<6 months) &amp; 5 mℓ subcutaneously (>6 months)<br>- Pasteurella 5 mℓ subcutaneously</td>
-          </tr>
-          <tr>
-            <td>Lumpy skin disease - 2mℓ subcutaneously</td>
-          </tr>
-          <tr>
-            <td>Three-day stiff sickness - 2 mℓ</td>
-          </tr>
-          <tr>
-            <td>Autumn or early winter (April - June)</td>
-            <td>Blackquarter/Botulism OR Gasgangrene - 5 mℓ subcutaneously OR 5 mℓ subcutaneously<br>Anthrax - 2 mℓ subcutaneously<br>Botulism – (if combinations were not used) - 2 mℓ subcutaneously<br>- C. pyogenes 10 mℓ subcutaneously (>6 months)<br>- Pasteurella 5 mℓ subcutaneously</td>
-            <td>± 4 weeks before breeding - Vibriosis 2 mℓ subcutaneously (heifers)<br>5 mℓ subcutaneously (bulls)<br>2 - 4 weeks before calving - Escherichia coli 2 mℓ subcutaneously</td>
-            <td></td> <!-- Add an empty column to match the header -->
-          </tr>
-      </tbody>
-    </table>
-</div>
-{% endblock %}
+<div class="container-fluid my-4">
+  <ul class="nav nav-tabs" id ="vaccstab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a class="flex-sm-fill text-sm-center nav-link active" id="late-winter-tab" data-bs-toggle="tab" aria-current="page" href="#late-winter" role="tab"
+        aria-controls="late-winter" aria-selected="true">Aug-Sept</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="flex-sm-fill text-sm-center nav-link" id="autumn-winter-tab" data-bs-toggle="tab" href="#autumn-winter" role="tab"
+        aria-controls="autumn-winter" aria-selected="false">April-June</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="flex-md-fill text-md-center nav-link" id="breeding-tab" data-bs-toggle="tab" href="#breeding" role="tab" aria-controls="breeding"
+        aria-selected="false">4 weeks <br> Before breeding</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="flex-sm-fill text-sm-center nav-link" id="calving-tab" data-bs-toggle="tab" href="#calving" role="tab" aria-controls="calving"
+        aria-selected="false">2-4 Weeks <br> Before calving</a>
+    </li>
+  </ul>
 
-{% block js %}
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
-<script>
-    $(document).ready(function() {
-      $('#myTable').DataTable();
-    });
-</script>
+  <div class="tab-content mt-3">
+    <div class="tab-pane fade show active" id="late-winter" role="tabpanel" aria-labelledby="late-winter-tab">
+      <hr>
+      <h2 class=" text-success fs-3 fw-4">Essential vaccines</h2>
+      <hr>
+      <div class="row py-1">
+        <div class="col">
+          <strong>Three-day stiff sickness</strong>
+        </div>
+        <div class="col">
+          2 mℓ
+        </div>
+      </div>
+      <div class="row py-1">
+        <div class="col">
+          <strong>Lumpy skin disease</strong>
+        </div>
+        <div class="col">
+          2mℓ subcutaneously
+        </div>
+      </div>
+      <div class="row py-1">
+        <div class="col">
+          <strong>Rift Valley fever (Inactivated vaccine)</strong>
+        </div>
+        <div class="col">
+          2 mℓ subcutaneously
+        </div>
+      </div>
+      <div class="row py-1">
+        <div class="col">
+          <strong>Clone 13</strong>
+        </div>
+        <div class="col">
+          1 mℓ
+        </div>
+      </div>
+      <div class="row py-1">
+        <div class="col">
+          <strong>Rift Valley (Live)</strong>
+        </div>
+        <div class="col">
+          1 mℓ
+        </div>
+      </div>
+       <hr> 
+      <h2 class=" text-success fs-3 fw-4">Optional vaccines</h2>
+      <hr>
+      <div class="row py-1">
+        <div class="col">
+          <strong>C. pyogenes</strong>
+        </div>
+        <div class="col">
+          10 mℓ subcutaneously (&lt;6 months)
+        <br>
+          5 mℓ subcutaneously (&gt;6 months)
+        </div>
+      </div>
+      <div class="row py-1">
+        <div class="col">
+          <strong>Pasteurella</strong>
+        </div>
+        <div class="col">
+          5 mℓ subcutaneously
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane fade" id="autumn-winter" role="tabpanel" aria-labelledby="autumn-winter-tab">
+      <hr>
+      <h2 class=" text-success fs-3 fw-4">Essential vaccines</h2>
+      <hr>
+      <div class="row py-1">
+        <div class="col">
+          <strong>Blackquarter/Botulism OR Gasgangrene</strong>
+        </div>
+        <div class="col">
+          5 mℓ subcutaneously
+        </div>
+      </div>
+      <div class="row py-1">
+        <div class="col">
+          <strong>Anthrax</strong>
+        </div>
+        <div class="col">
+          2 mℓ subcutaneously
+        </div>
+      </div>
+      <div class="row py-1">
+        <div class="col">
+          <strong>Botulism (if combinations were not used)</strong>
+        </div>
+        <div class="col">
+          2 mℓ subcutaneously
+        </div>
+      </div>
+      <div class="row py-1">
+        <div class="col">
+          <strong>C. pyogenes</strong>
+        </div>
+        <div class="col">
+          10 mℓ subcutaneously (&gt;6 months)
+        </div>
+      </div>
+      <div class="row py-1">
+        <div class="col">
+          <strong>Pasteurella</strong>
+        </div>
+        <div class="col">
+          5 mℓ subcutaneously
+        </div>
+      </div>
+    </div>
+  
+    <div class="tab-pane fade" id="breeding" role="tabpanel" aria-labelledby="breeding-tab">
+      <hr>
+      <h2 class=" text-success fs-3 fw-4">Optional vaccines</h2>
+      <hr>
+      <div class="row py-1">
+        <div class="col">
+          <strong>Vibriosis</strong>
+        </div>
+        <div class="col">
+          2 mℓ subcutaneously (heifers)
+        </div>
+        <div class="col">
+          5 mℓ subcutaneously (bulls)
+        </div>
+      </div>
+    </div>
+  
+    <div class="tab-pane fade" id="calving" role="tabpanel" aria-labelledby="calving-tab">
+      <hr>
+      <h2 class=" text-success fs-3 fw-4">Optional vaccines</h2>
+      <hr>
+      <div class="row py-1">
+        <div class="col">
+          <strong>Escherichia coli</strong>
+        </div>
+        <div class="col">
+          2 mℓ subcutaneously
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

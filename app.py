@@ -2,7 +2,7 @@
 
 from datetime import datetime
 from flask import Flask, request, redirect, render_template
-from flask_login import LoginManager, login_required
+from flask_login import LoginManager, current_user, login_required
 from dotenv import load_dotenv
 import os
 from flask_migrate import Migrate
@@ -48,6 +48,16 @@ def load_user(user_id):
     else:
         user = User.query.filter_by(username=user_id).first()
     return user
+
+from flask import redirect, url_for
+
+# @app.before_request
+# def require_authentication():
+#     # Check if the user is authenticated
+#     if not current_user.is_authenticated:
+#         # Redirect to the sign-in page
+#         if request.endpoint != 'login':
+#             return redirect(url_for('login'))
 
 
 @app.route('/login', methods=['GET', 'POST'])

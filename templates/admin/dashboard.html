@@ -1,47 +1,60 @@
 {% extends '/layouts/layout.html' %}
 
 {% block content %}
- 
-<div class="container">
+<div id="app">
+  <div class="container">
     <h1 class="text-center mt-5">Welcome to the Dashboard</h1>
 
     <div class="dashboard-container mt-5">
-        <div class="row row-cols-1 row-cols-md-3 g-3">
-            <div class="col">
-                <div class="dashboard-section">
-                    <h2>Herd Summary</h2>
-                    <p>Total number of cattle: <span class="fw-bold">{{ total_cattle }}</span></p>
-                    <p>Total number of heifers: <span class="fw-bold">{{ total_heifers }}</span></p>
-                    <p>Total number of bulls: <span class="fw-bold">{{ total_bulls }}</span></p>
-                    <p>Total number of pregnant cattle: <span class="fw-bold">{{ total_pregnant }}</span></p>
-                    <p>Next new born tag: <span class="fw-bold">{{ next_tag_number }}</span></p>
-
-
-                </div>
-            </div>
-            <div class="col">
-                <div class="dashboard-section">
-                    <h2>Upcoming Tasks</h2>
-                    <ul>
-                        {% for task in upcoming_tasks %}
-                        <li>{{ task.title }} - Due: {{ task.due_date }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-            <div class="col">
-                <div class="dashboard-section">
-                    <h2>Notifications</h2>
-                    <ul>
-                        {% for notification in notifications %}
-                        <li>{{ notification.message }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
+      <div class="row row-cols-1 row-cols-md-3 g-3">
+        <div class="col">
+          <div class="dashboard-section">
+            <h2>Herd Summary</h2>
+            <p>Total number of cattle: <span class="fw-bold">{{ total_cattle }}</span></p>
+            <p>Total number of heifers: <span class="fw-bold">{{ total_heifers }}</span></p>
+            <p>Total number of bulls: <span class="fw-bold">{{ total_bulls }}</span></p>
+            <p>Total number of pregnant cattle: <span class="fw-bold">{{ total_pregnant }}</span></p>
+            <p>Next new born tag: <span class="fw-bold">{{ next_tag_number }}</span></p>
+          </div>
         </div>
+        <div class="col">
+          <div class="dashboard-section">
+            <h2>Upcoming Tasks</h2>
+            <ul>
+              <!-- Remove the Jinja loop here -->
+            </ul>
+          </div>
+        </div>
+        <div class="col">
+          <div class="dashboard-section">
+            <h2>Notifications</h2>
+            <ul>
+             
+            </ul>
+          </div>
+        </div>
+        <div class="col">
+          <div class="dashboard-section">
+            <h2>Summary Chart</h2>
+            <herd-summary-chart
+            :total-cattle="totalCattle"
+            :total-heifers="totalHeifers"
+            :total-bulls="totalBulls"
+          ></herd-summary-chart>
+        </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
-    
-    {% endblock %}
+{% block js %}
+{{ super() }}
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-chartjs@3.5.1/dist/vue-chartjs.min.js"></script>
+
+<script type="module" src="{{ url_for('static', filename='js/dashboard_app.js') }}"></script>
+
+{% endblock %}
+{% endblock %}
