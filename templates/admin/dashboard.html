@@ -13,32 +13,31 @@
 
   <div class="col">
     <div class="row">
-        <div class="col-4">
-            <div class="dashboard-section">
-              <h2>Herd Summary Chart</h2>
-              <div class="chart-container" style="position: relative; ">
-              <canvas id="herd-summary-chart" data-total_heifers="{{total_heifers}}" data-total_bulls="{{total_bulls}}" data-total_cattle="{{total_cattle}}" data-total_pregnant="{{total_pregnant}}"></canvas>
-            </div>
-            </div>
+      <div class="col-4">
+        <div class="dashboard-section">
+          <h2>Herd Summary Chart</h2>
+          <div class="chart-container" style="position: relative;">
+            <div id="herd-summary"  data-total_heifers="{{total_heifers}}" data-total_bulls="{{total_bulls}}" data-total_cattle="{{total_cattle}}" data-total_pregnant="{{total_pregnant}}"></div>
+          </div>
         </div>
-        <div class="col-4">
-            <div class="dashboard-section">
-              <h2>Herd pregnancy stats </h2>
-              <div class="chart-container" style="position: relative; ">
-              <canvas id="herd-preg-chart" data-total_heifers="{{total_heifers}}" data-total_bulls="{{total_bulls}}" data-total_cattle="{{total_cattle}}" data-total_pregnant="{{total_pregnant}}"></canvas>
-            </div>
-            </div>
+      </div>
+      <div class="col-4">
+        <div class="dashboard-section">
+          <h2>Herd pregnancy stats</h2>
+          <div class="chart-container" style="position: relative;">
+            <div id="herd-preg-chart"  data-total_heifers="{{total_heifers}}" data-total_bulls="{{total_bulls}}" data-total_cattle="{{total_cattle}}" data-total_pregnant="{{total_pregnant}}"></div>
+          </div>
         </div>
-        <div class="col-4">
-            <div class="dashboard-section">
-              <h2>Herd Summary Chart</h2>
-              <div class="chart-container" style="position: relative; ">
-              <canvas id="herd-summary-chart" data-total_heifers="{{total_heifers}}" data-total_bulls="{{total_bulls}}" data-total_cattle="{{total_cattle}}" data-total_pregnant="{{total_pregnant}}"></canvas>
-            </div>
-            </div>
+      </div>
+      <div class="col-4">
+        <div class="dashboard-section">
+          <h2>Herd Summary Chart</h2>
+          <div id="herd-summary2"  data-total_heifers="{{total_heifers}}" data-total_bulls="{{total_bulls}}" data-total_cattle="{{total_cattle}}" data-total_pregnant="{{total_pregnant}}"></div>
         </div>
+      </div>
     </div>
   </div>
+  
 
   <div class="col">
     <div class="dashboard-section">
@@ -68,8 +67,12 @@
 
 {% block js %}
 {{ super() }}
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script> 
- <script src="{{ url_for('static', filename='js/dashboard_charts.js') }}" type="module"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+  </script>
+<script src="{{ url_for('static', filename='js/dashboard_charts.js') }}" type="module"></script>
 
 
 
